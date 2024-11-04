@@ -1,7 +1,6 @@
-
 using System;
 using System.Collections.Generic;
-using (link unavailable);
+using System.IO;
 
 // Base class for all goals
 public abstract class Goal
@@ -133,20 +132,27 @@ public class EternalQuest
 
                 if (parts.Length == 3)
                 {
-                    var goal = parts[0] == "Simple" ? new SimpleGoal(parts[1], int.Parse(parts[2])) 
-                        : parts[0] == "Eternal" ? new EternalGoal(parts[1], int.Parse(parts[2])) 
-                        : new ChecklistGoal(parts[1], int.Parse(parts[2]), 0);
-
-                    goal.IsCompleted = bool.Parse(parts[0] == "Simple" ? parts[2] : parts[3]);
-                    Goals.Add(goal);
-
-                    if (goal is ChecklistGoal checklistGoal)
+                    Goal goal;
+                    if (parts[0] == "Simple")
                     {
+                        goal = new SimpleGoal(parts[1], int.Parse(parts[2]));
+                    }
+                    else if (parts[0] == "Eternal")
+                    {
+                        goal = new EternalGoal(parts[1], int.Parse(parts[2]));
+                    }
+                    else
+                    {
+                        var checklistGoal = new ChecklistGoal(parts[1], int.Parse(parts[2]), 0);
                         line = reader.ReadLine();
                         parts = line.Split(',');
                         checklistGoal.TargetCount = int.Parse(parts[0]);
                         checklistGoal.CurrentCount = int.Parse(parts[1]);
+                        goal = checklistGoal;
                     }
+
+                    goal.IsCompleted = bool.Parse(parts[2]);
+                    Goals.Add(goal);
                 }
             }
         }
@@ -178,4 +184,8 @@ class Program
         // Load progress
         eternalQuest.LoadProgress("progress.txt");
 
-        // Display score
+        // Display goals and score after loading progress
+        eternalQuest.DisplayGoals();
+        Console.WriteLine($"Total Score: {eternalQuest.Score}");
+    }
+}
