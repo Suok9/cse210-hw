@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-// Base class for all goals
+
 public abstract class Goal
 {
     public string Name { get; set; }
@@ -18,7 +18,7 @@ public abstract class Goal
     public abstract void RecordEvent();
 }
 
-// Simple goal class
+
 public class SimpleGoal : Goal
 {
     public SimpleGoal(string name, int points) : base(name, points) { }
@@ -30,7 +30,7 @@ public class SimpleGoal : Goal
     }
 }
 
-// Eternal goal class
+
 public class EternalGoal : Goal
 {
     public EternalGoal(string name, int points) : base(name, points) { }
@@ -41,7 +41,7 @@ public class EternalGoal : Goal
     }
 }
 
-// Checklist goal class
+
 public class ChecklistGoal : Goal
 {
     public int TargetCount { get; set; }
@@ -66,7 +66,7 @@ public class ChecklistGoal : Goal
     }
 }
 
-// Program class
+
 public class EternalQuest
 {
     public List<Goal> Goals { get; set; }
@@ -165,26 +165,25 @@ class Program
     {
         var eternalQuest = new EternalQuest();
 
-        // Create goals
+        
         eternalQuest.Goals.Add(new SimpleGoal("Run a marathon", 1000));
         eternalQuest.Goals.Add(new EternalGoal("Read scriptures", 100));
         eternalQuest.Goals.Add(new ChecklistGoal("Attend temple", 50, 10));
 
-        // Display goals
+        
         eternalQuest.DisplayGoals();
 
-        // Record events
-        eternalQuest.RecordEvent(eternalQuest.Goals[0]);
+         eternalQuest.RecordEvent(eternalQuest.Goals[0]);
         eternalQuest.RecordEvent(eternalQuest.Goals[1]);
         eternalQuest.RecordEvent(eternalQuest.Goals[2]);
 
-        // Save progress
+        
         eternalQuest.SaveProgress("progress.txt");
 
-        // Load progress
+        
         eternalQuest.LoadProgress("progress.txt");
 
-        // Display goals and score after loading progress
+        
         eternalQuest.DisplayGoals();
         Console.WriteLine($"Total Score: {eternalQuest.Score}");
     }
